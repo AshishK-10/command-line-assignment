@@ -24,8 +24,7 @@ for i in 0...uri.length
   end
 end
 hash[0]=[] if !a
-hash[1]=[] if !b 
+hash[1]=[] if !b
 return hash
 end
 
-#get_related("clear")

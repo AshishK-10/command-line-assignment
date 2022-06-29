@@ -17,11 +17,10 @@ newWord=JSON.parse(uri.body)
 
 for i in 0...newWord.length
 word=newWord[i].to_s
-#puts word.include?"=>"
 word=word.split("=>")[1]
 word=word.split("}")[0]
 arr.push(word)
 end
 arr
 end
-#puts get_defination("break")
+

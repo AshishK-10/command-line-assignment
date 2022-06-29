@@ -15,7 +15,4 @@ uri = HTTParty.get('https://fourtytwowords.herokuapp.com/words/randomWord?api_ke
 word=uri.body
 newWord=JSON.parse(word)
 newWord["id"]
-#puts newWord.class
-#puts word
-#puts word[0]
 end

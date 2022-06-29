@@ -8,23 +8,23 @@ require_relative 'example.rb'
 class WordDictionary
 
   def initialize
-    @score=0
+    @score=0            #initialising the score of the complete game
   end
 
  def play()
-  puts "starting the game"
+  puts "starting the game"          #main interface or method that opens to the user and hadles other methods
   puts " "
-  start()
-  hint(rand(1..3))
-  guess()
+  start()                   #starting the game
+  hint(rand(1..3))          #randomising the hint before calling the hint method
+  guess()                   #method allows user to guess
  end
- private
+ private                    #protecting these files from outside access
  def guess()
   puts " "
   puts "Now make a guess.It may be a correct answer.: "
   g=gets.chomp.downcase
-  if g == @key || check_for_syn(g)
-    @score+=10
+  if g == @key || check_for_syn(g)                   #if correct answer points will be rewarded
+    @score+=10                                       #and game restarts
     puts "Correct answer!!"
     puts "-------------------------"
     puts "Your score is: #{@score}"
@@ -33,7 +33,7 @@ class WordDictionary
     puts "Finding new word.."
     puts ""
     play()
-  else
+  else                                              #wrong guess, options are displayed
     @score-=2
     puts "wrong answer"
     puts " "
@@ -52,14 +52,13 @@ class WordDictionary
   end
  end
 
- def check_for_syn(a)
+ def check_for_syn(a)          #method checks if user entered word is a synonym or not
   x=@syn.include?a
   y=@syn_so_far.include?a
   return x&&!y
  end
 
- def skip()
-  #puts "this is the skip block.."
+ def skip()                                  #skip method
   @score-=4
   puts "------------------------"
   puts "Your Score is: #{@score}"
@@ -90,9 +89,9 @@ class WordDictionary
  end
 
 
- def start
+ def start                                            #method restarts the game
   @key=get_random()
-  puts @key
+  #puts @key
   hash=get_related(@key)
   @atm=hash[0]
   @syn=hash[1]
@@ -106,34 +105,28 @@ class WordDictionary
   @atm_len=@atm.length
   @syn_len=@syn.length
   @def_len=@def.length
-  #puts @def_len
  end
 
 
- def hint(a,f=false)
+ def hint(a,f=false)                  #method provides hint when asked
   @score-=3 if f
-  #puts @score
   if a==1 && @atm_count<@atm_len
-    #puts @atm_len
     puts "the antonym of the word is: #{@atm[@atm_count]}"
     @atm_so_far.push(@atm[@atm_count])
-    #puts @atm_so_far
     @atm_count+=1
 
   elsif a==2 && @syn_count<@syn_len
     puts "the synonym of the word is: #{@syn[@syn_count]}"
     @syn_so_far.push(@syn[@syn_count])
-    #puts @syn_so_far
     @syn_count+=1
 
   elsif a==3 && @def_count<@def_len
     puts "the Defination of the word is: #{@def[@def_count]}"
     @def_so_far.push(@def[@def_count])
-    #puts @def_so_far
     @def_count+=1
 
   elsif @def_count>=@def_len && @atm_count>=@atm_len && @syn_count>= @syn_len
-    arr=[]
+    arr=[]                                                 #provides the jumbled string
     for i in 0..@key.length-1
       arr.push(@key[i])
     end
