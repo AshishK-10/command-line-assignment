@@ -8,35 +8,37 @@ require_relative 'example.rb'
 class WordDictionary
 
   def initialize
-    @score=0            #initialising the score of the complete game
+    @score=0 #initializing the score of the complete game
   end
 
- def play()
-  puts "starting the game"          #main interface or method that opens to the user and hadles other methods
+ def play
+  puts "starting the game" #main interface or method that opens to the user and handles all other methods
   puts " "
-  start()                   #starting the game
-  hint(rand(1..3))          #randomising the hint before calling the hint method
-  guess()                   #method allows user to guess
+  start #starting the game
+  hint(rand(1..3)) #randomising the hint before calling the hint method
+  guess #method allows user to guess the answer
  end
- private                    #protecting these files from outside access
- def guess()
+ private #protecting these files from outside access
+ def guess
   puts " "
   puts "Now make a guess.It may be a correct answer.: "
   g=gets.chomp.downcase
-  if g == @key || check_for_syn(g)                   #if correct answer points will be rewarded
-    @score+=10                                       #and game restarts
+
+#if correct answer,points will be rewarded and game restarts
+  if g == @key || check_for_syn(g)
+    @score+=10
     puts "Correct answer!!"
     puts "-------------------------"
     puts "Your score is: #{@score}"
     puts "--------------------------"
-    puts " "
     puts "Finding new word.."
     puts ""
-    play()
-  else                                              #wrong guess, options are displayed
+    play
+
+ #on wrong guess,options are displayed:
+  else
     @score-=2
     puts "wrong answer"
-    puts " "
     puts "-------------------------"
     puts "Your Score is: #{@score}"
     puts "--------------------------"
@@ -46,19 +48,21 @@ class WordDictionary
     puts "3. Skip this word"
     puts ". Press Any other key to exit the game"
     ch=gets.chomp.to_i
-    guess() if ch == 1
+    guess if ch == 1
     hint(rand(1..3),true) if ch == 2
-    skip() if ch == 3
+    skip if ch == 3
   end
  end
 
- def check_for_syn(a)          #method checks if user entered word is a synonym or not
+#method checks if user input is a synonym or not
+ def check_for_syn(a)
   x=@syn.include?a
   y=@syn_so_far.include?a
   return x&&!y
  end
 
- def skip()                                  #skip method
+#skip method
+ def skip
   @score-=4
   puts "------------------------"
   puts "Your Score is: #{@score}"
@@ -69,29 +73,31 @@ class WordDictionary
     @atm.each{|x| puts x}
     puts " "
   end
+
   if @syn_len>0
     puts "Synonyms:"
     @syn.each{|x| puts x}
     puts " "
   end
+
   if @def.length>0
     puts "Definations of the word:"
     @def.each{|x| puts "=> #{x}"}
     puts " "
   end
   ex=get_example(@key)
+
   if ex.length>0
     puts "Some examples of the word: "
     ex.each{|x| puts "=> #{x}"}
     puts " "
   end
-  play()
+  play
  end
 
-
- def start                                            #method restarts the game
-  @key=get_random()
-  #puts @key
+#method restarts the game
+def start
+  @key=get_random
   hash=get_related(@key)
   @atm=hash[0]
   @syn=hash[1]
@@ -107,8 +113,8 @@ class WordDictionary
   @def_len=@def.length
  end
 
-
- def hint(a,f=false)                  #method provides hint when asked
+#method provides hint when asked
+ def hint(a,f=false)
   @score-=3 if f
   if a==1 && @atm_count<@atm_len
     puts "the antonym of the word is: #{@atm[@atm_count]}"
@@ -125,8 +131,9 @@ class WordDictionary
     @def_so_far.push(@def[@def_count])
     @def_count+=1
 
+    #provides the jumbled string
   elsif @def_count>=@def_len && @atm_count>=@atm_len && @syn_count>= @syn_len
-    arr=[]                                                 #provides the jumbled string
+    arr=[]
     for i in 0..@key.length-1
       arr.push(@key[i])
     end
@@ -135,16 +142,14 @@ class WordDictionary
     arr.each{|x| s+=x}
     print "The jumbled word is: #{s}"
     puts ""
-
   else
     hint(rand(1..3))
   end
-  guess() if f
+  guess if f
  end
-
 end
 
 
 
-m=WordDictionary.new()
-m.play()
+m=WordDictionary.new
+m.play
